@@ -1,0 +1,68 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<!DOCTYPE mapper
+PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN"
+"http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<mapper namespace="com.me.system.mapper.TVipMapper">
+    
+    <resultMap type="TVip" id="TVipResult">
+        <result property="id"    column="id"    />
+        <result property="name"    column="name"    />
+        <result property="bmoney"    column="bmoney"    />
+        <result property="emoney"    column="emoney"    />
+    </resultMap>
+
+    <sql id="selectTVipVo">
+        select id, name, bmoney, emoney from t_vip
+    </sql>
+
+    <select id="selectTVipList" parameterType="TVip" resultMap="TVipResult">
+        <include refid="selectTVipVo"/>
+        <where>  
+            <if test="name != null  and name != ''"> and name like concat('%', #{name}, '%')</if>
+            <if test="bmoney != null "> and bmoney = #{bmoney}</if>
+            <if test="emoney != null "> and emoney = #{emoney}</if>
+        </where>
+    </select>
+    
+    <select id="selectTVipById" parameterType="Long" resultMap="TVipResult">
+        <include refid="selectTVipVo"/>
+        where id = #{id}
+    </select>
+        
+    <insert id="insertTVip" parameterType="TVip">
+        insert into t_vip
+        <trim prefix="(" suffix=")" suffixOverrides=",">
+            <if test="id != null">id,</if>
+            <if test="name != null">name,</if>
+            <if test="bmoney != null">bmoney,</if>
+            <if test="emoney != null">emoney,</if>
+         </trim>
+        <trim prefix="values (" suffix=")" suffixOverrides=",">
+            <if test="id != null">#{id},</if>
+            <if test="name != null">#{name},</if>
+            <if test="bmoney != null">#{bmoney},</if>
+            <if test="emoney != null">#{emoney},</if>
+         </trim>
+    </insert>
+
+    <update id="updateTVip" parameterType="TVip">
+        update t_vip
+        <trim prefix="SET" suffixOverrides=",">
+            <if test="name != null">name = #{name},</if>
+            <if test="bmoney != null">bmoney = #{bmoney},</if>
+            <if test="emoney != null">emoney = #{emoney},</if>
+        </trim>
+        where id = #{id}
+    </update>
+
+    <delete id="deleteTVipById" parameterType="Long">
+        delete from t_vip where id = #{id}
+    </delete>
+
+    <delete id="deleteTVipByIds" parameterType="String">
+        delete from t_vip where id in 
+        <foreach item="id" collection="array" open="(" separator="," close=")">
+            #{id}
+        </foreach>
+    </delete>
+</mapper>

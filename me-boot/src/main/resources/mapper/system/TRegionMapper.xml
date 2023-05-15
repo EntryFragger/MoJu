@@ -1,0 +1,79 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<!DOCTYPE mapper
+PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN"
+"http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<mapper namespace="com.me.system.mapper.TRegionMapper">
+    
+    <resultMap type="TRegion" id="TRegionResult">
+        <result property="code"    column="code"    />
+        <result property="name"    column="name"    />
+        <result property="pinyin"    column="pinyin"    />
+        <result property="zipCode"    column="zip_code"    />
+        <result property="type"    column="type"    />
+        <result property="firstLetter"    column="first_letter"    />
+    </resultMap>
+
+    <sql id="selectTRegionVo">
+        select code, name, pinyin, zip_code, type, first_letter from t_region
+    </sql>
+
+    <select id="selectTRegionList" parameterType="TRegion" resultMap="TRegionResult">
+        <include refid="selectTRegionVo"/>
+        <where>  
+            <if test="code != null  and code != ''"> and code = #{code}</if>
+            <if test="name != null  and name != ''"> and name like concat('%', #{name}, '%')</if>
+            <if test="pinyin != null  and pinyin != ''"> and pinyin = #{pinyin}</if>
+            <if test="zipCode != null  and zipCode != ''"> and zip_code = #{zipCode}</if>
+            <if test="type != null  and type != ''"> and type = #{type}</if>
+            <if test="firstLetter != null  and firstLetter != ''"> and first_letter = #{firstLetter}</if>
+        </where>
+    </select>
+    
+    <select id="selectTRegionByCode" parameterType="String" resultMap="TRegionResult">
+        <include refid="selectTRegionVo"/>
+        where code = #{code}
+    </select>
+        
+    <insert id="insertTRegion" parameterType="TRegion">
+        insert into t_region
+        <trim prefix="(" suffix=")" suffixOverrides=",">
+            <if test="code != null">code,</if>
+            <if test="name != null">name,</if>
+            <if test="pinyin != null">pinyin,</if>
+            <if test="zipCode != null">zip_code,</if>
+            <if test="type != null">type,</if>
+            <if test="firstLetter != null">first_letter,</if>
+         </trim>
+        <trim prefix="values (" suffix=")" suffixOverrides=",">
+            <if test="code != null">#{code},</if>
+            <if test="name != null">#{name},</if>
+            <if test="pinyin != null">#{pinyin},</if>
+            <if test="zipCode != null">#{zipCode},</if>
+            <if test="type != null">#{type},</if>
+            <if test="firstLetter != null">#{firstLetter},</if>
+         </trim>
+    </insert>
+
+    <update id="updateTRegion" parameterType="TRegion">
+        update t_region
+        <trim prefix="SET" suffixOverrides=",">
+            <if test="name != null">name = #{name},</if>
+            <if test="pinyin != null">pinyin = #{pinyin},</if>
+            <if test="zipCode != null">zip_code = #{zipCode},</if>
+            <if test="type != null">type = #{type},</if>
+            <if test="firstLetter != null">first_letter = #{firstLetter},</if>
+        </trim>
+        where code = #{code}
+    </update>
+
+    <delete id="deleteTRegionByCode" parameterType="String">
+        delete from t_region where code = #{code}
+    </delete>
+
+    <delete id="deleteTRegionByCodes" parameterType="String">
+        delete from t_region where code in 
+        <foreach item="code" collection="array" open="(" separator="," close=")">
+            #{code}
+        </foreach>
+    </delete>
+</mapper>

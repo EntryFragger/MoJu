@@ -1,0 +1,45 @@
+{
+  "pages": [
+    "pages/activity/activityList/activityList",
+    "pages/his/activityuser/activityuser",
+    "pages/Loign/login",
+    "pages/activity/detail/detail",
+    "pages/his/vip/vipList/vipList",
+    "pages/center/pwdEdit",
+    "pages/center/home",
+    "pages/Loign/reg",
+    "pages/activity/createActivity/createActivity",
+    "pages/activity/createActivity/createList"
+  ],
+  "subPackages": [],
+  "window": {
+    "navigationBarBackgroundColor": "#0081ff",
+    "navigationBarTitleText": "组局活动小程序",
+    "navigationStyle": "custom",
+    "navigationBarTextStyle": "white"
+  },
+  "tabBar": {
+    "borderStyle": "black",
+    "backgroundColor": "#FFF",
+    "color": "#8F8F94",
+    "selectedColor": "#f33e54",
+    "list": [
+      {
+        "pagePath": "pages/activity/activityList/activityList",
+        "iconPath": "static/tabbar/plugin.png",
+        "selectedIconPath": "static/tabbar/plugin_cur.png",
+        "text": "组局活动"
+      },
+      {
+        "pagePath": "pages/center/home",
+        "iconPath": "static/tabbar/plugin.png",
+        "selectedIconPath": "static/tabbar/plugin_cur.png",
+        "text": "个人中心"
+      }
+    ]
+  },
+  "usingComponents": {
+    "center": "/pages/center/home",
+    "cu-custom": "/colorui/components/cu-custom"
+  }
+}
